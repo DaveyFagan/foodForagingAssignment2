@@ -1,4 +1,4 @@
-package ie.wit.foraging.activities
+package ie.wit.foraging.home
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -9,8 +9,6 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.*
 import androidx.navigation.ui.*
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.auth.FirebaseUser
 import ie.wit.foraging.R
 import ie.wit.foraging.databinding.HomeBinding
@@ -18,7 +16,7 @@ import ie.wit.foraging.databinding.NavHeaderBinding
 import ie.wit.foraging.ui.auth.LoggedInViewModel
 import ie.wit.foraging.ui.auth.Login
 import androidx.lifecycle.Observer
-
+import timber.log.Timber
 
 
 class Home : AppCompatActivity() {
@@ -33,6 +31,7 @@ class Home : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Timber.i("Starting Foraging Application")
 
         homeBinding = HomeBinding.inflate(layoutInflater)
         setContentView(homeBinding.root)
@@ -54,6 +53,7 @@ class Home : AppCompatActivity() {
     }
 
     public override fun onStart() {
+        Timber.i("Starting Foraging Home")
         super.onStart()
         loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
         loggedInViewModel.liveFirebaseUser.observe(this, Observer { firebaseUser ->

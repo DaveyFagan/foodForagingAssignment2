@@ -11,7 +11,6 @@ interface ForagingClickListener {
     fun onForagingClick(foraging: ForagingModel)
 }
 
-
 class ForagingAdapter constructor(private var foragingList: List<ForagingModel>,
                                   private val listener: ForagingClickListener)
     : RecyclerView.Adapter<ForagingAdapter.MainHolder>() {

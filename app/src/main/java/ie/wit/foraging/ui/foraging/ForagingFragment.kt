@@ -19,6 +19,7 @@ import ie.wit.foraging.R
 import ie.wit.foraging.databinding.FragmentForagingBinding
 import ie.wit.foraging.main.ForagingApp
 import ie.wit.foraging.models.ForagingModel
+import timber.log.Timber.i
 
 class ForagingFragment : Fragment() {
 
@@ -116,6 +117,8 @@ class ForagingFragment : Fragment() {
             }
         }
     }
+
+
 
 //     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
 //        inflater.inflate(R.menu.menu_foraging_list, menu)
