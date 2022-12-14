@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Wild Food Foraging</string>
+    <string name="foragingTitle">Welcome User</string>
+    <string name="foragingSubtitle">Please Enter The Food Foraged</string>
+    <string name="foragingButton">Add Foraged Food</string>
+    <string name="scientificPlantName">Scientific Plant Name</string>
+    <string name="commonPlantName">Common Plant Name</string>
+    <string name="datePlantPicked">Date Plant Picked</string>
+    <string name="enter_all_fields">Enter All Fields</string>
+    <string name="all_fields_entered">All Fields Entered</string>
+    <string name="action_foraging">Add Foraged Food</string>
+    <string name="action_foraging_list">Foraged Food List</string>
+    <string name="action_share">Share</string>
+    <string name="action_send">Send</string>
+    <string name="group_communicate">Communicate</string>
+    <string name="nav_header_title">Wild Food Foraging</string>
+    <string name="nav_header_subtitle">Wild and Free</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="food_Not_Found">"You haven't foraged any food yet\nTime to start!!"</string>
+    <string name="foragingError">Error : Couldn\'t add food :(</string>
+    <string name="message">Message :</string>
+    <string name="upvotes">UpVotes :</string>
+    <string name="action_plant_detail">Plant Details</string>
+
+
+
+</resources>
