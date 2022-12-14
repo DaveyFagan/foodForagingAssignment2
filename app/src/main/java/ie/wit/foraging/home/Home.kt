@@ -1,15 +1,24 @@
 package ie.wit.foraging.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.*
 import androidx.navigation.ui.*
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.auth.FirebaseUser
 import ie.wit.foraging.R
 import ie.wit.foraging.databinding.HomeBinding
+import ie.wit.foraging.databinding.NavHeaderBinding
+import ie.wit.foraging.ui.auth.LoggedInViewModel
+import ie.wit.foraging.ui.auth.Login
+import androidx.lifecycle.Observer
+
 
 
 class Home : AppCompatActivity() {
@@ -17,6 +26,10 @@ class Home : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
     private lateinit var homeBinding : HomeBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
+
+    private lateinit var navHeaderBinding : NavHeaderBinding
+    private lateinit var loggedInViewModel : LoggedInViewModel
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,12 +39,6 @@ class Home : AppCompatActivity() {
         drawerLayout = homeBinding.drawerLayout
         val toolbar = findViewById<Toolbar>(R.id.toolbar)
         setSupportActionBar(toolbar)
-
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         val navController = findNavController(R.id.nav_host_fragment)
 
@@ -44,20 +51,42 @@ class Home : AppCompatActivity() {
 
         val navView = homeBinding.navView
         navView.setupWithNavController(navController)
+    }
 
-//        navController.addOnDestinationChangedListener { _, destination, arguments ->
-//            when(destination.id) {
-//                R.id.reportFragment -> {
-//                    val argument = NavArgument.Builder().setDefaultValue(totalDonated).build()
-//                    destination.addArgument("totalDonated", argument)
-//
-//                }
-//            }
-//        }
+    public override fun onStart() {
+        super.onStart()
+        loggedInViewModel = ViewModelProvider(this).get(LoggedInViewModel::class.java)
+        loggedInViewModel.liveFirebaseUser.observe(this, Observer { firebaseUser ->
+            if (firebaseUser != null) {
+                //val currentUser = loggedInViewModel.liveFirebaseUser.value
+                /*if (currentUser != null)*/ updateNavHeader(loggedInViewModel.liveFirebaseUser.value!!)
+            }
+        })
+
+        loggedInViewModel.loggedOut.observe(this, Observer { loggedout ->
+            if (loggedout) {
+                startActivity(Intent(this, Login::class.java))
+            }
+        })
+
+    }
+
+    private fun updateNavHeader(currentUser: FirebaseUser) {
+        var headerView = homeBinding.navView.getHeaderView(0)
+        navHeaderBinding = NavHeaderBinding.bind(headerView)
+        navHeaderBinding.navHeaderEmail.text = currentUser.email
     }
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
+
+    fun signOut(item: MenuItem) {
+        loggedInViewModel.logOut()
+        val intent = Intent(this, Login::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+    }
 }
+

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "661280658561",
+    "project_id": "foraging-d77e3",
+    "storage_bucket": "foraging-d77e3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661280658561:android:b3e6429453a81e9023a980",
+        "android_client_info": {
+          "package_name": "ie.wit.foraging"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661280658561-1geakek9hm84uli4n7ke4hc7hnlpp977.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjZCDciAYi1zVaKU-onxDGvTAJN9g2trw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661280658561-1geakek9hm84uli4n7ke4hc7hnlpp977.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
