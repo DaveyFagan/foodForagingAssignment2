@@ -2,7 +2,6 @@ package ie.wit.foraging.ui.foragingList
 
 import android.os.Bundle
 import android.view.*
-import android.widget.TextView
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -20,7 +19,6 @@ import ie.wit.foraging.adapters.ForagingClickListener
 import ie.wit.foraging.databinding.FragmentForagingListBinding
 import ie.wit.foraging.main.ForagingApp
 import ie.wit.foraging.models.ForagingManager
-import ie.wit.foraging.models.ForagingManager.foragingList
 import ie.wit.foraging.models.ForagingModel
 
 class ForagingListFragment : Fragment(), ForagingClickListener {
@@ -29,14 +27,14 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
     private var _fragBinding: FragmentForagingListBinding? = null
     private val fragBinding get() = _fragBinding!!
     private lateinit var foragingListViewModel: ForagingListViewModel
-    //lateinit var navController: NavController
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        app = activity?.application as ForagingApp
         setHasOptionsMenu(true)
-        //navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+//        app = activity?.application as ForagingApp
+//        navController = Navigation.findNavController(activity!!, R.id.nav_host_fragment)
+
     }
 
     override fun onCreateView(

@@ -35,6 +35,7 @@ class ForagingAdapter constructor(private var foragingList: List<ForagingModel>,
         fun bind(foraging: ForagingModel, listener: ForagingClickListener) {
             binding.foragingPlantNameTitle.text = foraging.commonPlantName
             binding.foragingPlantScientificName.text = foraging.scientificPlantName
+            binding.datePlantPicked.text = foraging.datePlantPicked
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
             binding.root.setOnClickListener { listener.onForagingClick(foraging) }
         }
