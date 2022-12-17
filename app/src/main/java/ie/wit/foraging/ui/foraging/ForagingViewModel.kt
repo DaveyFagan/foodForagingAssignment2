@@ -3,7 +3,8 @@ package ie.wit.foraging.ui.foraging
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import ie.wit.foraging.models.ForagingManager
+import com.google.firebase.auth.FirebaseUser
+import ie.wit.foraging.firebase.FirebaseDBManager
 import ie.wit.foraging.models.ForagingModel
 
 class ForagingViewModel : ViewModel() {
@@ -13,9 +14,11 @@ class ForagingViewModel : ViewModel() {
     val observableStatus: LiveData<Boolean>
         get() = status
 
-    fun addForaging(foraging: ForagingModel) {
+    fun addForaging(firebaseUser: MutableLiveData<FirebaseUser>, foraging: ForagingModel) {
         status.value = try {
-            ForagingManager.create(foraging)
+//            ForagingManager.create(foraging)
+            FirebaseDBManager.create(firebaseUser, foraging)
+
             true
         } catch (e: IllegalArgumentException) {
             false

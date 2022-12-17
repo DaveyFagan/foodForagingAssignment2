@@ -11,7 +11,7 @@ interface ForagingClickListener {
     fun onForagingClick(foraging: ForagingModel)
 }
 
-class ForagingAdapter constructor(private var foragingList: List<ForagingModel>,
+class ForagingAdapter constructor(private var foragingList: ArrayList<ForagingModel>,
                                   private val listener: ForagingClickListener)
     : RecyclerView.Adapter<ForagingAdapter.MainHolder>() {
 
@@ -27,7 +27,13 @@ class ForagingAdapter constructor(private var foragingList: List<ForagingModel>,
         holder.bind(foraging, listener)
     }
 
+
     override fun getItemCount(): Int = foragingList.size
+
+    fun removeAt(position: Int) {
+        foragingList.removeAt(position)
+        notifyItemRemoved(position)
+    }
 
     inner class MainHolder(val binding : CardForagingBinding) : RecyclerView.ViewHolder(binding.root) {
 
@@ -35,6 +41,7 @@ class ForagingAdapter constructor(private var foragingList: List<ForagingModel>,
             binding.foragingPlantNameTitle.text = foraging.commonPlantName
             binding.foragingPlantScientificName.text = foraging.scientificPlantName
             binding.datePlantPicked.text = foraging.datePlantPicked
+            binding.root.tag = foraging
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
             binding.root.setOnClickListener { listener.onForagingClick(foraging) }
         }

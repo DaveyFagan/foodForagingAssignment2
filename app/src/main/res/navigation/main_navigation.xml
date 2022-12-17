@@ -40,6 +40,6 @@
             app:destination="@id/foragingListFragment" />
         <argument
             android:name="foragingid"
-            app:argType="long" />
+            app:argType="string" />
     </fragment>
 </navigation>

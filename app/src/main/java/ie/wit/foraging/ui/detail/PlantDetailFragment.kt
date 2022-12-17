@@ -4,40 +4,68 @@ import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
-import androidx.core.view.MenuHost
-import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.findNavController
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.ui.NavigationUI
-import ie.wit.foraging.R
+import ie.wit.foraging.databinding.FragmentPlantDetailBinding
+import ie.wit.foraging.ui.auth.LoggedInViewModel
+import ie.wit.foraging.ui.foragingList.ForagingListViewModel
+import timber.log.Timber
 
 class PlantDetailFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = PlantDetailFragment()
-    }
-
-    private lateinit var viewModel: PlantDetailViewModel
+    private lateinit var plantDetailViewModel: PlantDetailViewModel
     private val args by navArgs<PlantDetailFragmentArgs>()
+    private var _fragBinding: FragmentPlantDetailBinding? = null
+    private val fragBinding get() = _fragBinding!!
+    private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private val foragingListViewModel : ForagingListViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_plant_detail, container, false)
+
+        _fragBinding = FragmentPlantDetailBinding.inflate(inflater, container, false)
+        val root = fragBinding.root
+
+        plantDetailViewModel = ViewModelProvider(this).get(PlantDetailViewModel::class.java)
+        plantDetailViewModel.observablePlant.observe(viewLifecycleOwner, Observer { render() })
+
+        fragBinding.editPlantButton.setOnClickListener {
+            plantDetailViewModel.updatePlant(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+                args.foragingid, fragBinding.foragingvm?.observablePlant!!.value!!)
+            findNavController().navigateUp()
+        }
+
+//        val view = inflater.inflate(R.layout.fragment_plant_detail, container, false)
 
         Toast.makeText(context,"Plant ID Selected : ${args.foragingid}",Toast.LENGTH_LONG).show()
 
-        return view
+        return root
 //        return inflater.inflate(R.layout.fragment_plant_detail, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(PlantDetailViewModel::class.java)
-        // TODO: Use the ViewModel
+    private fun render() {
+        fragBinding.editScientificName.setText("A Message")
+        fragBinding.editCommonName.setText("")
+        fragBinding.editScientificName.setText("")
+        fragBinding.foragingvm = plantDetailViewModel
+        Timber.i("Retrofit fragBinding.donationvm == $fragBinding.foragingvm")
+    }
+
+    override fun onResume() {
+        super.onResume()
+        plantDetailViewModel.getPlant(loggedInViewModel.liveFirebaseUser.value?.uid!!,
+            args.foragingid)
+
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _fragBinding = null
     }
 
 }

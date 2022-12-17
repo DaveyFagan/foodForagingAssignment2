@@ -8,15 +8,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import ie.wit.foraging.R
 import ie.wit.foraging.databinding.LoginBinding
-import ie.wit.foraging.home.Home
+import ie.wit.foraging.ui.home.Home
 import timber.log.Timber
 import androidx.lifecycle.Observer
-
-//class Login : AppCompatActivity()
-//{
-//
-//}
-
 
 class Login : AppCompatActivity() {
 
