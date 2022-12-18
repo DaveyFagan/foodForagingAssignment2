@@ -16,6 +16,8 @@ import ie.wit.foraging.databinding.NavHeaderBinding
 import ie.wit.foraging.ui.auth.LoggedInViewModel
 import ie.wit.foraging.ui.auth.Login
 import androidx.lifecycle.Observer
+import com.squareup.picasso.Picasso
+import ie.wit.foraging.utils.customTransformation
 import timber.log.Timber
 
 
@@ -59,6 +61,7 @@ class Home : AppCompatActivity() {
             if (firebaseUser != null) {
                 //val currentUser = loggedInViewModel.liveFirebaseUser.value
                 /*if (currentUser != null)*/ updateNavHeader(loggedInViewModel.liveFirebaseUser.value!!)
+
             }
         })
 
@@ -73,7 +76,16 @@ class Home : AppCompatActivity() {
     private fun updateNavHeader(currentUser: FirebaseUser) {
         var headerView = homeBinding.navView.getHeaderView(0)
         navHeaderBinding = NavHeaderBinding.bind(headerView)
+        navHeaderBinding.navHeaderName.text = currentUser.displayName
         navHeaderBinding.navHeaderEmail.text = currentUser.email
+        if(currentUser.photoUrl != null && currentUser.displayName != null) {
+            navHeaderBinding.navHeaderName.text = currentUser.displayName
+            Picasso.get().load(currentUser.photoUrl)
+                .resize(200, 200)
+                .transform(customTransformation())
+                .centerCrop()
+                .into(navHeaderBinding.imageView)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
