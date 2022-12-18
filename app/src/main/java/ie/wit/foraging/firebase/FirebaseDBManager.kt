@@ -11,7 +11,25 @@ object FirebaseDBManager : ForagingStore {
     var database: DatabaseReference = FirebaseDatabase.getInstance().reference
 
     override fun findAll(foragingList: MutableLiveData<List<ForagingModel>>) {
-        TODO("Not yet implemented")
+        database.child("foraginglist")
+            .addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(error: DatabaseError) {
+                    Timber.i("Firebase Foraging error : ${error.message}")
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val localList = ArrayList<ForagingModel>()
+                    val children = snapshot.children
+                    children.forEach {
+                        val foraging = it.getValue(ForagingModel::class.java)
+                        localList.add(foraging!!)
+                    }
+                    database.child("foraginglist")
+                        .removeEventListener(this)
+
+                    foragingList.value = localList
+                }
+            })
     }
 
     override fun findAll(userid: String, foragingList: MutableLiveData<List<ForagingModel>>) {

@@ -3,6 +3,7 @@ package ie.wit.foraging.ui.foragingList
 import android.os.Bundle
 import android.view.*
 import android.app.AlertDialog
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -103,6 +104,16 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
 
             override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
                 menuInflater.inflate(R.menu.menu_foraging, menu)
+
+                val item = menu.findItem(R.id.toggleDonations) as MenuItem
+                item.setActionView(R.layout.togglebutton_layout)
+                val toggleForagingList: SwitchCompat = item.actionView!!.findViewById(R.id.toggleButton)
+                toggleForagingList.isChecked = false
+
+                toggleForagingList.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) foragingListViewModel.loadAll()
+                    else foragingListViewModel.load()
+                }
             }
 
             override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
@@ -116,7 +127,8 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
     }
 
     private fun render(foragingList: ArrayList<ForagingModel>) {
-        fragBinding.recyclerView.adapter = ForagingAdapter(foragingList, this)
+        fragBinding.recyclerView.adapter = ForagingAdapter(foragingList, this,foragingListViewModel.readOnly.value!!)
+
         if (foragingList.isEmpty()) {
             fragBinding.recyclerView.visibility = View.GONE
             fragBinding.foodNotFound.visibility = View.VISIBLE
@@ -129,7 +141,8 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
     override fun onForagingClick(foraging: ForagingModel) {
         val action =
             ForagingListFragmentDirections.actionForagingListFragmentToPlantDetailFragment(foraging.uid!!)
-        findNavController().navigate(action)
+        if(!foragingListViewModel.readOnly.value!!)
+            findNavController().navigate(action)
     }
 
     companion object {
@@ -144,7 +157,10 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
         fragBinding.swiperefresh.setOnRefreshListener {
             fragBinding.swiperefresh.isRefreshing = true
             showLoader(loader,"Downloading Foraged Food")
-            foragingListViewModel.load()
+            if(foragingListViewModel.readOnly.value!!)
+                foragingListViewModel.loadAll()
+            else
+                foragingListViewModel.load()
         }
     }
 

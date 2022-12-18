@@ -16,6 +16,8 @@ class ForagingListViewModel : ViewModel() {
         get() = foragingList
 
     var liveFirebaseUser = MutableLiveData<FirebaseUser>()
+    var readOnly = MutableLiveData(false)
+
 
     init {
         load()
@@ -23,6 +25,7 @@ class ForagingListViewModel : ViewModel() {
 
     fun load() {
         try {
+            readOnly.value = false
 //            ForagingManager.findAll(liveFirebaseUser.value?.email!!, foragingList)
             FirebaseDBManager.findAll(liveFirebaseUser.value?.uid!!,foragingList)
             Timber.i("ForagingList Load Success : ${foragingList.value.toString()}")
@@ -40,6 +43,17 @@ class ForagingListViewModel : ViewModel() {
         }
         catch (e: Exception) {
             Timber.i("Report Delete Error : $e.message")
+        }
+    }
+
+    fun loadAll() {
+        try {
+            readOnly.value = true
+            FirebaseDBManager.findAll(foragingList)
+            Timber.i("Report LoadAll Success : ${foragingList.value.toString()}")
+        }
+        catch (e: Exception) {
+            Timber.i("Report LoadAll Error : $e.message")
         }
     }
 

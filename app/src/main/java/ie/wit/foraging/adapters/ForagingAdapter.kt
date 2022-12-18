@@ -12,14 +12,15 @@ interface ForagingClickListener {
 }
 
 class ForagingAdapter constructor(private var foragingList: ArrayList<ForagingModel>,
-                                  private val listener: ForagingClickListener)
+                                  private val listener: ForagingClickListener,
+                                  private val readOnly: Boolean)
     : RecyclerView.Adapter<ForagingAdapter.MainHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardForagingBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return MainHolder(binding)
+        return MainHolder(binding,readOnly)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
@@ -35,7 +36,9 @@ class ForagingAdapter constructor(private var foragingList: ArrayList<ForagingMo
         notifyItemRemoved(position)
     }
 
-    inner class MainHolder(val binding : CardForagingBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class MainHolder(val binding : CardForagingBinding, private val readOnly : Boolean) : RecyclerView.ViewHolder(binding.root) {
+
+        val readOnlyRow = readOnly
 
         fun bind(foraging: ForagingModel, listener: ForagingClickListener) {
             binding.foragingPlantNameTitle.text = foraging.commonPlantName
@@ -43,7 +46,10 @@ class ForagingAdapter constructor(private var foragingList: ArrayList<ForagingMo
             binding.datePlantPicked.text = foraging.datePlantPicked
             binding.root.tag = foraging
             binding.imageIcon.setImageResource(R.mipmap.ic_launcher_round)
-            binding.root.setOnClickListener { listener.onForagingClick(foraging) }
+            binding.root.setOnClickListener {
+                listener.onForagingClick(foraging)
+
+            }
         }
     }
 }
