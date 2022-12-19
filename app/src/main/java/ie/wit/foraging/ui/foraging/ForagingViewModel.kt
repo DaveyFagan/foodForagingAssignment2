@@ -10,9 +10,13 @@ import ie.wit.foraging.models.ForagingModel
 class ForagingViewModel : ViewModel() {
 
     private val status = MutableLiveData<Boolean>()
+    private val foraging = MutableLiveData<ForagingModel>()
 
     val observableStatus: LiveData<Boolean>
         get() = status
+
+    val observableForaging: LiveData<ForagingModel>
+        get() = foraging
 
     fun addForaging(firebaseUser: MutableLiveData<FirebaseUser>, foraging: ForagingModel) {
         status.value = try {

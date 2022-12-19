@@ -47,6 +47,6 @@
     <string name="update">Update</string>
     <string name="delete">Delete</string>
     <string name="nav_header_email">test@mail.com</string>
-
+    <string name="select_foraging_image">Select foraging image</string>
 
 </resources>

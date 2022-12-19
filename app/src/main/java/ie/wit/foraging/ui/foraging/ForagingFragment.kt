@@ -1,9 +1,14 @@
 package ie.wit.foraging.ui.foraging
 
+import android.app.Activity.RESULT_CANCELED
+import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.fragment.app.Fragment
@@ -15,11 +20,15 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.google.android.material.snackbar.Snackbar
+import com.squareup.picasso.Picasso
 import ie.wit.foraging.R
 import ie.wit.foraging.databinding.FragmentForagingBinding
 import ie.wit.foraging.main.ForagingApp
 import ie.wit.foraging.models.ForagingModel
 import ie.wit.foraging.ui.auth.LoggedInViewModel
+import ie.wit.foraging.ui.detail.PlantDetailViewModel
+import ie.wit.foraging.utils.readImageUri
+import ie.wit.foraging.utils.showImagePicker
 import timber.log.Timber
 import java.util.*
 
@@ -29,7 +38,9 @@ class ForagingFragment : Fragment() {
 
 //    lateinit var app: ForagingApp
     private lateinit var foragingViewModel: ForagingViewModel
+    private lateinit var plantDetailViewModel: PlantDetailViewModel
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
+    private lateinit var intentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,6 +61,8 @@ class ForagingFragment : Fragment() {
         })
         setDateListener(fragBinding)
         setButtonListener(fragBinding)
+        setPhotoListener(fragBinding)
+        registerImagePickerCallback()
         return root;
     }
 
@@ -96,8 +109,9 @@ class ForagingFragment : Fragment() {
             val commonPlantName = foragingLayout.commonPlantName.text.toString()
             val scientificPlantName = foragingLayout.scientificPlantName.text.toString()
             val datePlantPicked = foragingLayout.datePlantPicked.text.toString()
+            val image = foragingLayout.foragingImage.toString()
 
-            if (commonPlantName.isEmpty() or scientificPlantName.isEmpty() or datePlantPicked.isEmpty()) {
+            if (commonPlantName.isEmpty() or scientificPlantName.isEmpty() or datePlantPicked.isEmpty() or image.isEmpty()) {
                 Snackbar
                     .make(it, R.string.enter_all_fields, Snackbar.LENGTH_LONG)
                     .show()
@@ -108,9 +122,13 @@ class ForagingFragment : Fragment() {
                             commonPlantName = commonPlantName,
                             scientificPlantName = scientificPlantName,
                             datePlantPicked = datePlantPicked,
+                            image = image,
                             email = loggedInViewModel.liveFirebaseUser.value?.email!!
                         )
                     )
+                fragBinding.commonPlantName.text = null
+                fragBinding.scientificPlantName.text = null
+                fragBinding.datePlantPicked.text = null
             }
         }
     }
@@ -137,6 +155,13 @@ class ForagingFragment : Fragment() {
         }
     }
 
+    fun setPhotoListener(foragingLayout: FragmentForagingBinding) {
+        foragingLayout.chooseImage.setOnClickListener {
+            Timber.i("Select image")
+            showImagePicker(intentLauncher)
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
@@ -144,10 +169,24 @@ class ForagingFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        fragBinding.commonPlantName.text = null
-        fragBinding.scientificPlantName.text = null
-        fragBinding.datePlantPicked.text = null
+        fragBinding.commonPlantName.text = fragBinding.commonPlantName.text
+        fragBinding.scientificPlantName.text = fragBinding.scientificPlantName.text
+        fragBinding.datePlantPicked.text = fragBinding.datePlantPicked.text
     }
 
+    private fun registerImagePickerCallback() {
+        intentLauncher =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                when(result.resultCode){
+                    RESULT_OK -> {
+                        if (result.data != null) {
+                            Timber.i("FX registerPickerCallback() ${readImageUri(result.resultCode, result.data).toString()}")
+                            fragBinding.foragingImage.setImageURI(readImageUri(result.resultCode, result.data))
+                        } // end of if
+                    }
+                    RESULT_CANCELED -> { } else -> { }
+                }
+            }
+    }
 
 }
