@@ -124,7 +124,7 @@ class ForagingFragment : Fragment() {
             val day = c.get(Calendar.DAY_OF_MONTH)
             val datePickerDialog = DatePickerDialog(
 
-                requireContext(),
+                requireContext(), R.style.DialogTheme,
                 { view, year, monthOfYear, dayOfMonth ->
                     val dat = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
                     foragingLayout.datePlantPicked.setText(dat)
