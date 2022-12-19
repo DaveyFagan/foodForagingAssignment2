@@ -9,7 +9,7 @@ import ie.wit.foraging.R
 
 fun createLoader(activity: FragmentActivity) : AlertDialog {
     val loaderBuilder = AlertDialog.Builder(activity)
-        .setCancelable(true) // 'false' if you want user to wait
+        .setCancelable(false) // 'false' if you want user to wait
         .setView(R.layout.loading)
     var loader = loaderBuilder.create()
     loader.setTitle(R.string.app_name)

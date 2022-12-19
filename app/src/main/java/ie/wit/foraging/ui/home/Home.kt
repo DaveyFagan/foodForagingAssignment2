@@ -1,9 +1,11 @@
 package ie.wit.foraging.ui.home
 
 import android.content.Intent
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +31,8 @@ class Home : AppCompatActivity() {
 
     private lateinit var navHeaderBinding : NavHeaderBinding
     private lateinit var loggedInViewModel : LoggedInViewModel
+    private lateinit var headerView : View
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,6 +56,7 @@ class Home : AppCompatActivity() {
 
         val navView = homeBinding.navView
         navView.setupWithNavController(navController)
+
     }
 
     public override fun onStart() {
@@ -87,6 +92,7 @@ class Home : AppCompatActivity() {
                 .into(navHeaderBinding.imageView)
         }
     }
+
 
     override fun onSupportNavigateUp(): Boolean {
         val navController = findNavController(R.id.nav_host_fragment)

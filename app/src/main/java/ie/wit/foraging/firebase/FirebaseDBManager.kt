@@ -106,4 +106,5 @@ object FirebaseDBManager : ForagingStore {
         database.updateChildren(childUpdate)
     }
 
+
 }

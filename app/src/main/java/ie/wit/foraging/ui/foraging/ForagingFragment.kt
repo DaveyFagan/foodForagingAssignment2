@@ -1,5 +1,6 @@
 package ie.wit.foraging.ui.foraging
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -20,6 +21,7 @@ import ie.wit.foraging.main.ForagingApp
 import ie.wit.foraging.models.ForagingModel
 import ie.wit.foraging.ui.auth.LoggedInViewModel
 import timber.log.Timber
+import java.util.*
 
 class ForagingFragment : Fragment() {
     private var _fragBinding: FragmentForagingBinding? = null
@@ -46,7 +48,7 @@ class ForagingFragment : Fragment() {
         foragingViewModel.observableStatus.observe(viewLifecycleOwner, Observer {
                 status -> status?.let { render(status) }
         })
-
+        setDateListener(fragBinding)
         setButtonListener(fragBinding)
         return root;
     }
@@ -113,6 +115,28 @@ class ForagingFragment : Fragment() {
         }
     }
 
+    fun setDateListener(foragingLayout: FragmentForagingBinding) {
+        foragingLayout.datePlantPicked.setOnClickListener {
+
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
+            val datePickerDialog = DatePickerDialog(
+
+                requireContext(),
+                { view, year, monthOfYear, dayOfMonth ->
+                    val dat = (dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year)
+                    foragingLayout.datePlantPicked.setText(dat)
+                },
+                year,
+                month,
+                day
+            )
+            datePickerDialog.show()
+        }
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _fragBinding = null
@@ -124,4 +148,6 @@ class ForagingFragment : Fragment() {
         fragBinding.scientificPlantName.text = null
         fragBinding.datePlantPicked.text = null
     }
+
+
 }
