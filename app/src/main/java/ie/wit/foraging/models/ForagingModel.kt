@@ -16,9 +16,6 @@ data class ForagingModel(
 //    val message: String = "N/A",
 //    val upvotes: Int = 0,
     var email: String? = "eric@cartman.com"
-//    var lat: Double = 0.0,
-//    var lng: Double = 0.0,
-//    var zoom: Float = 0f
 ) : Parcelable
 {
     @Exclude
@@ -35,3 +32,10 @@ data class ForagingModel(
         )
     }
 }
+
+@Parcelize
+data class LocationModel(
+    var lat: Double = 0.0,
+    var lng: Double = 0.0,
+    var zoom: Float = 0f
+) : Parcelable

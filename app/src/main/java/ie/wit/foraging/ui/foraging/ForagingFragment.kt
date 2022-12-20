@@ -4,6 +4,9 @@ import android.app.Activity.RESULT_CANCELED
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
+import android.location.Location
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
@@ -23,24 +26,27 @@ import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 import ie.wit.foraging.R
 import ie.wit.foraging.databinding.FragmentForagingBinding
-import ie.wit.foraging.main.ForagingApp
+import ie.wit.foraging.firebase.FirebaseImageManager.uploadImageToFirebase
 import ie.wit.foraging.models.ForagingModel
 import ie.wit.foraging.ui.auth.LoggedInViewModel
 import ie.wit.foraging.ui.detail.PlantDetailViewModel
+import ie.wit.foraging.utils.customTransformation
 import ie.wit.foraging.utils.readImageUri
 import ie.wit.foraging.utils.showImagePicker
 import timber.log.Timber
 import java.util.*
+import com.squareup.picasso.Target
+import ie.wit.foraging.models.LocationModel
 
 class ForagingFragment : Fragment() {
     private var _fragBinding: FragmentForagingBinding? = null
     private val fragBinding get() = _fragBinding!!
-
-//    lateinit var app: ForagingApp
     private lateinit var foragingViewModel: ForagingViewModel
-    private lateinit var plantDetailViewModel: PlantDetailViewModel
+    private lateinit var mapIntentLauncher: ActivityResultLauncher<Intent>
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
     private lateinit var intentLauncher : ActivityResultLauncher<Intent>
+    val imageid = getRandomString(20)
+    var imageUriString = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,6 +68,7 @@ class ForagingFragment : Fragment() {
         setDateListener(fragBinding)
         setButtonListener(fragBinding)
         setPhotoListener(fragBinding)
+        setLocationListener(fragBinding, LocationModel())
         registerImagePickerCallback()
         return root;
     }
@@ -109,9 +116,10 @@ class ForagingFragment : Fragment() {
             val commonPlantName = foragingLayout.commonPlantName.text.toString()
             val scientificPlantName = foragingLayout.scientificPlantName.text.toString()
             val datePlantPicked = foragingLayout.datePlantPicked.text.toString()
-            val image = foragingLayout.foragingImage.toString()
+            val image = foragingLayout.foragingImage
 
-            if (commonPlantName.isEmpty() or scientificPlantName.isEmpty() or datePlantPicked.isEmpty() or image.isEmpty()) {
+
+            if (commonPlantName.isEmpty() or scientificPlantName.isEmpty() or datePlantPicked.isEmpty()) {
                 Snackbar
                     .make(it, R.string.enter_all_fields, Snackbar.LENGTH_LONG)
                     .show()
@@ -122,7 +130,7 @@ class ForagingFragment : Fragment() {
                             commonPlantName = commonPlantName,
                             scientificPlantName = scientificPlantName,
                             datePlantPicked = datePlantPicked,
-                            image = image,
+                            image = imageUriString,
                             email = loggedInViewModel.liveFirebaseUser.value?.email!!
                         )
                     )
@@ -155,6 +163,24 @@ class ForagingFragment : Fragment() {
         }
     }
 
+    fun setLocationListener(foragingLayout: FragmentForagingBinding, location: LocationModel) {
+        foragingLayout.foragingLocation.setOnClickListener {
+            Timber.i("Set Location Pressed")
+//            val originalLocation =
+//                LocationModel(53.45728574193019, -6.238869520651969, 15f)
+//
+//            if (location.zoom != 0f) {
+//                location.lat = location.lat
+//                location.lng = location.lng
+//                location.zoom = location.zoom
+//            }
+//            val launcherIntent = Intent(context, Map::class.java)
+//                .putExtra("location", originalLocation)
+//            mapIntentLauncher.launch(launcherIntent)
+
+        }
+    }
+
     fun setPhotoListener(foragingLayout: FragmentForagingBinding) {
         foragingLayout.chooseImage.setOnClickListener {
             Timber.i("Select image")
@@ -174,19 +200,50 @@ class ForagingFragment : Fragment() {
         fragBinding.datePlantPicked.text = fragBinding.datePlantPicked.text
     }
 
-    private fun registerImagePickerCallback() {
+    private fun registerImagePickerCallback(): String {
         intentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
                 when(result.resultCode){
                     RESULT_OK -> {
                         if (result.data != null) {
                             Timber.i("FX registerPickerCallback() ${readImageUri(result.resultCode, result.data).toString()}")
-                            fragBinding.foragingImage.setImageURI(readImageUri(result.resultCode, result.data))
+//                            fragBinding.foragingImage.setImageURI(readImageUri(result.resultCode, result.data))
+                            imageUriString = result.data!!.data!!.toString()
+                            Picasso.get().load(readImageUri(result.resultCode, result.data))
+                                .resize(200, 200)
+                                .transform(customTransformation())
+//                                .memoryPolicy(MemoryPolicy.NO_CACHE)
+                                .centerCrop()
+                                .into(object : Target {
+                                    override fun onBitmapLoaded(bitmap: Bitmap?,
+                                                                from: Picasso.LoadedFrom?
+                                    ) {
+                                        Timber.i("FX onBitmapLoaded $bitmap")
+                                        uploadImageToFirebase(imageid, bitmap!!,false)
+                                        fragBinding.foragingImage.setImageURI(result.data!!.data!!)
+                                    }
+
+                                    override fun onBitmapFailed(e: java.lang.Exception?,
+                                                                errorDrawable: Drawable?) {
+                                        Timber.i("FX onBitmapFailed $e")
+                                    }
+
+                                    override fun onPrepareLoad(placeHolderDrawable: Drawable?) {}
+                                })
                         } // end of if
                     }
                     RESULT_CANCELED -> { } else -> { }
                 }
+
             }
+        return imageUriString
+    }
+
+    fun getRandomString(length: Int) : String {
+        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        return (1..length)
+            .map { allowedChars.random() }
+            .joinToString("")
     }
 
 }
