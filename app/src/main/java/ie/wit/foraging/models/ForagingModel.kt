@@ -13,8 +13,6 @@ data class ForagingModel(
     var scientificPlantName: String = "N/A",
     var datePlantPicked: String = "N/A",
     var image: String = "N/A",
-//    val message: String = "N/A",
-//    val upvotes: Int = 0,
     var email: String? = "eric@cartman.com"
 ) : Parcelable
 {
@@ -26,8 +24,6 @@ data class ForagingModel(
             "scientificPlantName" to scientificPlantName,
             "datePlantPicked" to datePlantPicked,
             "image" to image,
-//            "message" to message,
-//            "upvotes" to upvotes,
             "email" to email
         )
     }

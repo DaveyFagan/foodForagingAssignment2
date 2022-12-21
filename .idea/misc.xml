@@ -25,6 +25,7 @@
         <entry key="app/src/main/res/layout/fragment_foraging_list.xml" value="0.33541666666666664" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/layout/fragment_plant_detail.xml" value="0.33541666666666664" />
+        <entry key="app/src/main/res/layout/fragment_recipe.xml" value="0.1671875" />
         <entry key="app/src/main/res/layout/home.xml" value="0.16770833333333332" />
         <entry key="app/src/main/res/layout/loading.xml" value="0.16614583333333333" />
         <entry key="app/src/main/res/layout/login.xml" value="0.25" />

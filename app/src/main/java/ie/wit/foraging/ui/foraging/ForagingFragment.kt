@@ -166,17 +166,17 @@ class ForagingFragment : Fragment() {
     fun setLocationListener(foragingLayout: FragmentForagingBinding, location: LocationModel) {
         foragingLayout.foragingLocation.setOnClickListener {
             Timber.i("Set Location Pressed")
-//            val originalLocation =
-//                LocationModel(53.45728574193019, -6.238869520651969, 15f)
-//
-//            if (location.zoom != 0f) {
-//                location.lat = location.lat
-//                location.lng = location.lng
-//                location.zoom = location.zoom
-//            }
-//            val launcherIntent = Intent(context, Map::class.java)
-//                .putExtra("location", originalLocation)
-//            mapIntentLauncher.launch(launcherIntent)
+            val originalLocation =
+                LocationModel(53.45728574193019, -6.238869520651969, 15f)
+
+            if (location.zoom != 0f) {
+                location.lat = location.lat
+                location.lng = location.lng
+                location.zoom = location.zoom
+            }
+            val launcherIntent = Intent(context, Map::class.java)
+                .putExtra("location", originalLocation)
+            mapIntentLauncher.launch(launcherIntent)
 
         }
     }

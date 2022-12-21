@@ -13,4 +13,11 @@
         android:title=""
         app:actionLayout="@layout/togglebutton_layout"
         app:showAsAction="always" />
+
+    <item
+        android:id="@+id/searchAction"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        app:showAsAction="always|collapseActionView"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
 </menu>

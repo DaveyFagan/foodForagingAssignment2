@@ -3,6 +3,7 @@ package ie.wit.foraging.ui.foragingList
 import android.os.Bundle
 import android.view.*
 import android.app.AlertDialog
+import android.widget.Toast
 import androidx.appcompat.widget.SwitchCompat
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
@@ -23,20 +24,19 @@ import ie.wit.foraging.databinding.FragmentForagingListBinding
 import ie.wit.foraging.models.ForagingModel
 import ie.wit.foraging.ui.auth.LoggedInViewModel
 import ie.wit.foraging.utils.*
+import kotlin.collections.ArrayList
 
 class ForagingListFragment : Fragment(), ForagingClickListener {
 
-//    lateinit var app: ForagingApp
     private var _fragBinding: FragmentForagingListBinding? = null
     private val fragBinding get() = _fragBinding!!
     lateinit var loader: AlertDialog
     private val foragingListViewModel: ForagingListViewModel by activityViewModels()
     private val loggedInViewModel : LoggedInViewModel by activityViewModels()
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setHasOptionsMenu(true)
+
     }
 
     override fun onCreateView(
@@ -45,7 +45,6 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
     ): View {
         _fragBinding = FragmentForagingListBinding.inflate(inflater, container, false)
         val root = fragBinding.root
-//        activity?.title = getString(R.string.action_foraging_list)
         setupMenu()
         loader = createLoader(requireActivity())
 
@@ -57,8 +56,7 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
         }
         showLoader(loader, "Downloading Foraged Food")
 
-//        foragingListViewModel =
-//            ViewModelProvider(this).get(ForagingListViewModel::class.java)
+
         foragingListViewModel.observableForagingList.observe(
             viewLifecycleOwner,
             Observer { foragingList ->
@@ -127,6 +125,7 @@ class ForagingListFragment : Fragment(), ForagingClickListener {
     }
 
     private fun render(foragingList: ArrayList<ForagingModel>) {
+
         fragBinding.recyclerView.adapter = ForagingAdapter(foragingList, this,foragingListViewModel.readOnly.value!!)
 
         if (foragingList.isEmpty()) {

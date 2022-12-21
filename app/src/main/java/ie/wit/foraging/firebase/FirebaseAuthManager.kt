@@ -22,7 +22,6 @@ class FirebaseAuthManager(application: Application) {
     var errorStatus = MutableLiveData<Boolean>()
     var googleSignInClient = MutableLiveData<GoogleSignInClient>()
 
-
     init {
         this.application = application
         firebaseAuth = FirebaseAuth.getInstance()

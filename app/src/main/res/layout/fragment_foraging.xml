@@ -49,47 +49,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.114" />
 
-    <EditText
-        android:id="@+id/common_plant_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:inputType="text"
-        android:hint="@string/commonPlantName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/foragingSubtitle" />
-
-    <EditText
-        android:id="@+id/scientific_plant_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:inputType="text"
-        android:hint="@string/scientificPlantName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/common_plant_name" />
-
-    <EditText
-        android:id="@+id/date_plant_picked"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusableInTouchMode="false"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:inputType="text"
-        android:hint="@string/datePlantPicked"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/scientific_plant_name" />
-
-
     <Button
         android:id="@+id/foragingButton"
         android:layout_width="60dp"
@@ -100,7 +59,7 @@
         android:layout_marginTop="32dp"
         app:icon="@drawable/ic_add_white"
         app:layout_constraintStart_toEndOf="@+id/chooseImage"
-        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked" />
+        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked_layout" />
 
     <Button
         android:id="@+id/chooseImage"
@@ -108,8 +67,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         app:icon="@drawable/ic_choose_image"
-        app:layout_constraintStart_toStartOf="@+id/date_plant_picked"
-        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked"
+        app:layout_constraintStart_toStartOf="@+id/date_plant_picked_layout"
+        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked_layout"
         app:srcCompat="@drawable/ic_choose_image" />
 
     <Button
@@ -120,7 +79,7 @@
         android:layout_marginTop="32dp"
         app:icon="@drawable/ic_camera"
         app:layout_constraintStart_toEndOf="@+id/foragingButton"
-        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked" />
+        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked_layout" />
 
     <Button
         android:id="@+id/foragingLocation"
@@ -130,7 +89,7 @@
         android:layout_marginTop="32dp"
         app:icon="@drawable/ic_map"
         app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked" />
+        app:layout_constraintTop_toBottomOf="@+id/date_plant_picked_layout" />
 
     <ImageView
         android:id="@+id/foragingImage"
@@ -142,5 +101,60 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button2"
         app:srcCompat="@mipmap/ic_launcher" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/common_plant_name_lauout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="32dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/foragingSubtitle"
+        tools:ignore="MissingConstraints">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/common_plant_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Common Plant Name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/scientific_plant_name_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="300dp"
+        android:layout_margin="32dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/date_plant_picked_layout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/common_plant_name_lauout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/scientific_plant_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Scientific Plant Name" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/date_plant_picked_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_margin="32dp"
+
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scientific_plant_name_layout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/date_plant_picked"
+            android:focusableInTouchMode="false"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Date Plant Picked" />
+    </com.google.android.material.textfield.TextInputLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
