@@ -30,12 +30,12 @@ class Login : AppCompatActivity() {
         setContentView(loginBinding.root)
 
         loginBinding.emailSignInButton.setOnClickListener {
-            signIn(loginBinding.fieldEmail.text.toString(),
-                loginBinding.fieldPassword.text.toString())
+            signIn(loginBinding.fieldEmailText.text.toString(),
+                loginBinding.fieldPasswordText.text.toString())
         }
         loginBinding.emailCreateAccountButton.setOnClickListener {
-            createAccount(loginBinding.fieldEmail.text.toString(),
-                loginBinding.fieldPassword.text.toString())
+            createAccount(loginBinding.fieldEmailText.text.toString(),
+                loginBinding.fieldPasswordText.text.toString())
         }
 
         loginBinding.googleSignInButton.setSize(SignInButton.SIZE_WIDE)
@@ -91,7 +91,7 @@ class Login : AppCompatActivity() {
     private fun validateForm(): Boolean {
         var valid = true
 
-        val email = loginBinding.fieldEmail.text.toString()
+        val email = loginBinding.fieldEmailText.text.toString()
         if (TextUtils.isEmpty(email)) {
             loginBinding.fieldEmail.error = "Required."
             valid = false
@@ -99,7 +99,7 @@ class Login : AppCompatActivity() {
             loginBinding.fieldEmail.error = null
         }
 
-        val password = loginBinding.fieldPassword.text.toString()
+        val password = loginBinding.fieldPasswordText.text.toString()
         if (TextUtils.isEmpty(password)) {
             loginBinding.fieldPassword.error = "Required."
             valid = false
