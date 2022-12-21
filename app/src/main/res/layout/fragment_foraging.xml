@@ -142,7 +142,6 @@
         android:id="@+id/date_plant_picked_layout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_margin="32dp"
-
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
