@@ -19,7 +19,8 @@
             style="@style/ThemeOverlay.FirebaseIcon"
             android:layout_width="286dp"
             android:layout_height="325dp"
-            android:contentDescription="@string/desc_firebase_lockup" />
+            android:contentDescription="@string/desc_firebase_lockup"
+            />
 
         <TextView
             android:id="@+id/titleText"
