@@ -16,6 +16,7 @@
         <entry key="app/src/main/res/drawable/ic_swipe_delete.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_swipe_edit.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/side_nav_bar.xml" value="0.1765" />
+        <entry key="app/src/main/res/layout/activity_splashscreen.xml" value="0.22" />
         <entry key="app/src/main/res/layout/app_bar_home.xml" value="0.33541666666666664" />
         <entry key="app/src/main/res/layout/card_donation.xml" value="0.33541666666666664" />
         <entry key="app/src/main/res/layout/card_foraging.xml" value="0.5" />

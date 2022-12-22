@@ -2,11 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name="ie.wit.foraging.main.ForagingApp"
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -15,11 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Foraging"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
 
         <activity
             android:name="ie.wit.foraging.ui.auth.Login"
-            android:exported="true">
+            android:exported="true"/>
+        <activity
+            android:name="ie.wit.foraging.ui.splashscreen.SplashscreenActivity"
+            android:exported="true" >
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -29,12 +33,11 @@
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
-<!--            <meta-data-->
-<!--                android:name="com.google.android.geo.API_KEY"-->
-<!--                android:value="${GOOGLE_MAPS_API_KEY}" />-->
+            <!-- <meta-data -->
+            <!-- android:name="com.google.android.geo.API_KEY" -->
+            <!-- android:value="${GOOGLE_MAPS_API_KEY}" /> -->
         </activity>
-        <activity
-            android:name="ie.wit.foraging.ui.home.Home">
+        <activity android:name="ie.wit.foraging.ui.home.Home">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
