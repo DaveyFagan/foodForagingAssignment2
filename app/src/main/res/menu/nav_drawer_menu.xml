@@ -33,6 +33,12 @@
                 android:icon="@android:drawable/ic_menu_revert"
                 android:onClick="signOut"
                 android:title="@string/sign_out" />
+
+            <item
+                android:id="@+id/darkmode"
+                android:icon="@drawable/ic_darkmode"
+                android:onClick="darkMode"
+                android:title="@string/darkmode" />
         </menu>
     </item>
 </menu>

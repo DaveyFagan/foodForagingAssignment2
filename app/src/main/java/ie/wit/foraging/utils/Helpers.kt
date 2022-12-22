@@ -14,7 +14,7 @@ import java.io.IOException
 
 fun createLoader(activity: FragmentActivity) : AlertDialog {
     val loaderBuilder = AlertDialog.Builder(activity)
-        .setCancelable(false) // 'false' if you want user to wait
+        .setCancelable(true) // 'false' if you want user to wait
         .setView(R.layout.loading)
     var loader = loaderBuilder.create()
     loader.setTitle(R.string.app_name)

@@ -35,6 +35,8 @@
     <string name="loading">Loading…</string>
     <string name="signed_in">Signed In</string>
     <string name="signed_out">Signed Out</string>
+    <string name="darkmode">Dark Mode</string>
+    <string name="chooseTheme">Select Theme</string>
     <string name="token_null">Token: null</string>
     <string name="hint_email">Email</string>
     <string name="hint_password">Password</string>
